@@ -10,7 +10,7 @@ router.post('/login',[
     check('password','La contraseña es obligatoria').notEmpty(),
     validationCampos
 ], login)
-
+ 
 
 
 module.exports= router;
