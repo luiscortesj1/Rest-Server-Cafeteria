@@ -36,7 +36,8 @@ const UsuarioSchema= Schema({
 UsuarioSchema.methods.toJSON= function(){
 
     /* instancia con los valores (objecto literal) se saca __v y password, los demas datos se guardan en usuario   */
-    const {__v, password, ...usuario}=this.toObject(); 
+    const {__v, password,_id, ...usuario}=this.toObject(); 
+    usuario.uid=_id;
     return usuario;
 }
 

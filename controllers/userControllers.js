@@ -68,14 +68,14 @@ const controller={
     userDelete:async(req, res=response)=> {
       const {id} = req.params;
 
-      /* //Delete Fisicamente
-      const usuario = await Usuario.findByIdAndDelete(id); */
-      const usuario = await Usuario.findByIdAndUpdate(id,{status:false})
-        res.json({
-            usuario
-        }); 
+      const usuario = await Usuario.findByIdAndUpdate(id,{status:false});
+      const usuarioAuth= req.usuario;
+      res.json({usuario}); 
       }
     
 }
 
 module.exports=controller;
+
+/* //Delete Fisicamente
+const usuario = await Usuario.findByIdAndDelete(id); */

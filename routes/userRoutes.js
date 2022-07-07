@@ -4,8 +4,10 @@ const router=Router();
 const controller=require('../controllers/userControllers');
 const validators = require('../helpers/db-validators');
 
-const { validationCampos } = require('../middlewares/validationCampos');
-
+// const { validarJWT } = require('../middlewares/validar-jwt');
+// const { adminRole, tieneRol } = require('../middlewares/validar-roles');
+// const { validationCampos } = require('../middlewares/validationCampos');
+const {validarJWT, adminRole, tieneRol,validationCampos} = require('../middlewares') // importar  middlewares desde index
 
 /* Otra forma de requerir con destructuracion 
 const {userGet,userPut,userPost,userDelete}=require('../controllers/userControllers')
@@ -34,6 +36,9 @@ router.post('/', [
 ], controller.userPost);
 
 router.delete('/:id',[
+    validarJWT,
+    //adminRole, //tiene que ser admin
+    tieneRol('ADMIN_ROLE','VENTAS_ROLE','USER_ROLE'), //puede tener cualquier rol
     check('id', 'No es un ID valido').isMongoId(),
     check('id').custom(validators.usuarioIdExistente),
     validationCampos
