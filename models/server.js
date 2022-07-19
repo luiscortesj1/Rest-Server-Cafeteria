@@ -1,57 +1,68 @@
-const express = require('express');
-const cors = require('cors');
-const { dbConection } = require('../database/config');
+const express = require("express");
+const cors = require("cors");
+const { dbConection } = require("../database/config");
 
-class Server{ //class
-    constructor(){
-        
-       this.app = express(); //propiedad 
-       this.port=process.env.PORT
+class Server {
+  //class
+  constructor() {
+    this.app = express(); //propiedad
+    this.port = process.env.PORT;
 
+    /* //Ruta Auth
+       this.authPath='/api/auth';
+       
+       //Ruta Categorias
+       this.categoriasPath='/api/categorias';
+       
        //Ruta Usuario
        this.usuariosPath='/api/usuarios';
+        */
+    this.paths = {
+      auth: "/api/auth",
+      buscar: "/api/buscar",
+      categorias: "/api/categorias",
+      usuarios: "/api/usuarios",
+      productos: "/api/productos",
+    };
+    // Conexion a base de datos
+    this.conexionDB();
+    //Middlewares
+    this.middlewares();
 
-       //Ruta Auth
-       this.authPath='/api/auth';
+    //routes
+    this.routes();
+  }
 
-       // Conexion a base de datos 
-        this.conexionDB();
-       //Middlewares
-       this.middlewares();
+  //Methods
 
-       //routes
-       this.routes(); 
-    }
+  async conexionDB() {
+    await dbConection();
+  }
 
-    //Methods
+  middlewares() {
+    //CORS (middlewares)
+    this.app.use(cors());
 
-    async conexionDB(){
-        await dbConection();
-    }
+    //Lectura y parseo del body
+    this.app.use(express.json());
 
-    middlewares(){
-        //CORS (middlewares)
-        this.app.use(cors());
+    //Directorio public
+    this.app.use(express.static("public"));
+  }
 
-        //Lectura y parseo del body
-        this.app.use(express.json());
+  routes() {
+    this.app.use(this.paths.auth, require("../routes/authRoutes"));
+    this.app.use(this.paths.buscar, require("../routes/searchRoutes"));
+    this.app.use(this.paths.categorias, require("../routes/categoriesRoutes"));
+    this.app.use(this.paths.productos, require("../routes/productsRoutes"));
+    this.app.use(this.paths.usuarios, require("../routes/userRoutes"));
+  }
 
-        //Directorio public
-        this.app.use(express.static('public'));
-       }
-
-    routes(){
-
-        this.app.use(this.usuariosPath,require('../routes/userRoutes'))
-        this.app.use(this.authPath,require('../routes/authRoutes'))
-
-    }
-
-    listen(){
-        this.app.listen(this.port,()=>{
-            console.log('listening on port '+ this.port);
-        });
-    }    
+  listen() {
+    this.app.listen(this.port, () => {
+      console.log("listening on port " + this.port);
+    });
+  }
 }
 
-module.exports=Server;
+module.exports = Server;
