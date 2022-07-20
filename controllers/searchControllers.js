@@ -1,7 +1,7 @@
 const { response } = require("express");
 const { isValidObjectId } = require("mongoose");
 const { Usuario, Categoria, Producto } = require("../models");
-const coleccionesPermitidas = ["categorias", "productos", "roles", "usuarios"];
+const coleccionesPermitidas = ["categorias", "productos",  "usuarios"];
 
 const buscarUsuarios = async (termino = "", res = response) => {
   const esMongoID = isValidObjectId(termino);
@@ -89,8 +89,6 @@ const search = (req, res = response) => {
       break;
     case "productos":
       buscarProductos(termino, res);
-      break;
-    case "roles":
       break;
     case "usuarios":
       buscarUsuarios(termino, res);
