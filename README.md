@@ -1,4 +1,4 @@
 # WebServer + RestServer
 
-ejecutar ```npm install``` para recosntruir los node modules
+ejecutar ```npm install``` para recosntruir los node_modules
 
