@@ -1,4 +1,5 @@
-# WebServer + RestServer
+# RestServer
+### Backend funcional para usuarios, productos, maneja login, tokens
 ### Revisar el archivo example.env para configurar las variables de entorno
 
 Ambiente Node.js
